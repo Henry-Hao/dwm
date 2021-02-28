@@ -1708,9 +1708,14 @@ togglefloating(const Arg *arg)
 	if (selmon->sel->isfullscreen) /* no support for fullscreen windows */
 		return;
 	selmon->sel->isfloating = !selmon->sel->isfloating || selmon->sel->isfixed;
-	if (selmon->sel->isfloating)
-		resize(selmon->sel, selmon->sel->x, selmon->sel->y,
-			selmon->sel->w, selmon->sel->h, 0);
+	if (selmon->sel->isfloating) {
+    int w = selmon->ww * 0.9;  // width of the floating window: 90% of the screen
+    int h = selmon->wh * 0.9; // height of the floating window: 90% of the screen
+    // the floating window should be located in the center of the screen instead of the original position
+    int x = selmon->wx + (selmon->ww / 2  - w / 2);
+    int y = selmon->wy + (selmon->wh / 2  - h / 2);
+    resize(selmon->sel, x, y, w, h, 0);
+  }
 	arrange(selmon);
 }
 
