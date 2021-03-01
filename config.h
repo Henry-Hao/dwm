@@ -12,8 +12,8 @@ static const unsigned int gappov    = 30;       /* vert outer gap between window
 static       int smartgaps          = 1;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Roboto Mono Nerd Font:size=10","JoyPixels:pixelsize=10:antialias=true:autohint=true" };
-static const char dmenufont[]       = "Roboto Mono Nerd Font:size=10";
+static const char *fonts[]          = { "Ubuntu Mono Nerd Font:size=13","JoyPixels:pixelsize=10:antialias=true:autohint=true" };
+static const char dmenufont[]       = "Ubuntu Mono Nerd Font:size=13";
 static const char normbgcolor[]     = "#222222";
 static const char normbordercolor[] = "#444444";
 static const char normfgcolor[]     = "#bbbbbb";
