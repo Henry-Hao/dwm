@@ -12,8 +12,8 @@ static const unsigned int gappov    = 30;       /* vert outer gap between window
 static       int smartgaps          = 1;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "UbuntuMono Nerd:size=10","NotoEmoji Nerd:pixle=10" };
-static const char dmenufont[]       = "UbuntuMono Nerd:size=10";
+static const char *fonts[]          = { "Roboto Mono Nerd Font:size=10","JoyPixels:pixelsize=10:antialias=true:autohint=true" };
+static const char dmenufont[]       = "Roboto Mono Nerd Font:size=10";
 static const char normbgcolor[]     = "#222222";
 static const char normbordercolor[] = "#444444";
 static const char normfgcolor[]     = "#bbbbbb";
@@ -52,7 +52,7 @@ static Sp scratchpads[] = {
 
 
 /* tagging */
-static const char *tags[] = { "1: ", "2: ", "3: ", "4", "5", "6", "7", "8", "9: " };
+static const char *tags[] = { "1:💻", "2:🌐", "3:📁", "4", "5", "6", "7", "8", "9:💬" };
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
