@@ -112,101 +112,143 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { TERMINAL, NULL };
 
+#include <X11/XF86keysym.h>
+
 static Key keys[] = {
-	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_w,      spawn,          SHCMD("firefox") },
-	{ NULL,                         XK_Print,  spawn,          SHCMD("flameshot gui") },
-	{ MODKEY,                       XK_e,      spawn,          SHCMD(TERMINAL " --title float -e ranger") },
-	{ MODKEY,                       XK_c,      togglescratch,  {.ui = 2 } }, // scratchpad for calculator
-	{ MODKEY|ShiftMask,             XK_i,      togglescratch,  {.ui = 3 } }, // scratchpad for htop
-	{ MODKEY|ShiftMask,             XK_w,      togglescratch,  {.ui = 4 } }, // scratchpad for nmtui
-	{ MODKEY|ShiftMask,             XK_v,      togglescratch,  {.ui = 5 } }, // scratchpad for pulsemixer
-	{ MODKEY|ShiftMask,             XK_p,      togglescratch,  {.ui = 6 } }, // scratchpad for calcurse
-	{ MODKEY|ShiftMask,             XK_m,      togglescratch,  {.ui = 7 } }, // scratchpad for pulsemixer-mute
-	{ MODKEY|ShiftMask,             XK_c,      spawn,          SHCMD(TERMINAL " --title float -e camtoggle &") },
-	{ MODKEY|ShiftMask,             XK_e,      spawn,          SHCMD("pcmanfm &") },
-	{ MODKEY,                       XK_r,      spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-	// { MODKEY,                       XK_F1,      spawn,         {.i = -1 } },
-	// { MODKEY,                       XK_F2,      spawn,         {.i = -1 } },
-	// { MODKEY,                       XK_F3,      spawn,         {.i = -1 } },
-	// { MODKEY,                       XK_F4,      spawn,         {.i = -1 } },
-	// { MODKEY,                       XK_F5,      spawn,         {.i = -1 } },
-	{ MODKEY,                       XK_F6,     spawn,          SHCMD(TERMINAL " --title float -e qbittorrent") },
-	// { MODKEY,                       XK_F7,      spawn,         {.i = -1 } },
-	// { MODKEY,                       XK_F8,      spawn,         {.i = -1 } },
-	// { MODKEY,                       XK_F9,      spawn,         {.i = -1 } },
-	// { MODKEY,                       XK_F10      spawn,         {.i = -1 } },
-	// { MODKEY,                       XK_F11      spawn,         {.i = -1 } },
-	// { MODKEY,                       XK_F12      spawn,         {.i = -1 } },
-	// { MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	// { MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
-	{ NULL,                         XK_F9,     view,           {.ui = 1 << 8} },
-	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
-	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_Return, zoom,           {0} },
-	{ MODKEY|Mod1Mask,              XK_u,      incrgaps,       {.i = +5 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_u,      incrgaps,       {.i = -5 } },
-	{ MODKEY|Mod1Mask,              XK_i,      incrigaps,      {.i = +5 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_i,      incrigaps,      {.i = -5 } },
-	{ MODKEY|Mod1Mask,              XK_o,      incrogaps,      {.i = +5 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_o,      incrogaps,      {.i = -5 } },
-	{ MODKEY|Mod1Mask,              XK_6,      incrihgaps,     {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_6,      incrihgaps,     {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_7,      incrivgaps,     {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_7,      incrivgaps,     {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_8,      incrohgaps,     {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_8,      incrohgaps,     {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_9,      incrovgaps,     {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_9,      incrovgaps,     {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_0,      togglegaps,     {0} },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_0,      defaultgaps,    {0} },
-	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY,                       XK_q,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_space,  setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	{ MODKEY,                       XK_p,      togglescratch,  {.ui = 0 } }, // scratchpad for vimwiki
-	{ MODKEY,                       XK_x,      togglescratch,  {.ui = 1 } }, // scratchpad for keepassxc
-	TAGKEYS(                        XK_1,                      0)
-	TAGKEYS(                        XK_2,                      1)
-	TAGKEYS(                        XK_3,                      2)
-	TAGKEYS(                        XK_4,                      3)
-	TAGKEYS(                        XK_5,                      4)
-	TAGKEYS(                        XK_6,                      5)
-	TAGKEYS(                        XK_7,                      6)
-	TAGKEYS(                        XK_8,                      7)
-	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	/* modifier                     key                       function        argument */
+	{ MODKEY,                       XK_d,                     spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_w,                     spawn,          SHCMD("firefox") },
+	{ NULL,                         XK_Print,                 spawn,          SHCMD("flameshot gui") },
+	{ MODKEY,                       XK_e,                     spawn,          SHCMD(TERMINAL " --title float -e ranger") },
+	{ MODKEY,                       XK_c,                     togglescratch,  {.ui = 2 } }, // scratchpad for calculator
+	{ MODKEY|ShiftMask,             XK_i,                     togglescratch,  {.ui = 3 } }, // scratchpad for htop
+	{ MODKEY|ShiftMask,             XK_w,                     togglescratch,  {.ui = 4 } }, // scratchpad for nmtui
+	{ MODKEY|ShiftMask,             XK_v,                     togglescratch,  {.ui = 5 } }, // scratchpad for pulsemixer
+	{ MODKEY|ShiftMask,             XK_p,                     togglescratch,  {.ui = 6 } }, // scratchpad for calcurse
+	{ MODKEY|ShiftMask,             XK_m,                     togglescratch,  {.ui = 7 } }, // scratchpad for pulsemixer-mute
+	{ MODKEY|ShiftMask,             XK_c,                     spawn,          SHCMD(TERMINAL " --title float -e camtoggle &") },
+	{ MODKEY|ShiftMask,             XK_e,                     spawn,          SHCMD("pcmanfm &") },
+	{ MODKEY,                       XK_r,                     spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_b,                     togglebar,      {0} },
+	{ MODKEY,                       XK_j,                     focusstack,     {.i = +1 } },
+	{ MODKEY,                       XK_k,                     focusstack,     {.i = -1 } },
+	// { MODKEY,                       XK_F1,                     spawn,         {.i = -1 } },
+	// { MODKEY,                       XK_F2,                     spawn,         {.i = -1 } },
+	// { MODKEY,                       XK_F3,                     spawn,         {.i = -1 } },
+	// { MODKEY,                       XK_F4,                     spawn,         {.i = -1 } },
+	// { MODKEY,                       XK_F5,                     spawn,         {.i = -1 } },
+	{ MODKEY,                       XK_F6,                    spawn,          SHCMD(TERMINAL " --title float -e qbittorrent") },
+	// { MODKEY,                       XK_F7,                     spawn,         {.i = -1 } },
+	// { MODKEY,                       XK_F8,                     spawn,         {.i = -1 } },
+	// { MODKEY,                       XK_F9,                     spawn,         {.i = -1 } },
+	// { MODKEY,                       XK_F10                     spawn,         {.i = -1 } },
+	// { MODKEY,                       XK_F11                     spawn,         {.i = -1 } },
+	// { MODKEY,                       XK_F12                     spawn,         {.i = -1 } },
+	// { MODKEY,                       XK_i,                     incnmaster,     {.i = +1 } },
+	// { MODKEY,                       XK_d,                     incnmaster,     {.i = -1 } },
+	{ NULL,                         XK_F9,                    view,           {.ui = 1 << 8} },
+	{ MODKEY,                       XK_h,                     setmfact,       {.f = -0.05} },
+	{ MODKEY,                       XK_l,                     setmfact,       {.f = +0.05} },
+	{ MODKEY,                       XK_Return,                zoom,           {0} },
+	{ MODKEY|Mod1Mask,              XK_u,                     incrgaps,       {.i = +5 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_u,                     incrgaps,       {.i = -5 } },
+	{ MODKEY|Mod1Mask,              XK_i,                     incrigaps,      {.i = +5 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_i,                     incrigaps,      {.i = -5 } },
+	{ MODKEY|Mod1Mask,              XK_o,                     incrogaps,      {.i = +5 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_o,                     incrogaps,      {.i = -5 } },
+	{ MODKEY|Mod1Mask,              XK_6,                     incrihgaps,     {.i = +1 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_6,                     incrihgaps,     {.i = -1 } },
+	{ MODKEY|Mod1Mask,              XK_7,                     incrivgaps,     {.i = +1 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_7,                     incrivgaps,     {.i = -1 } },
+	{ MODKEY|Mod1Mask,              XK_8,                     incrohgaps,     {.i = +1 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_8,                     incrohgaps,     {.i = -1 } },
+	{ MODKEY|Mod1Mask,              XK_9,                     incrovgaps,     {.i = +1 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_9,                     incrovgaps,     {.i = -1 } },
+	{ MODKEY|Mod1Mask,              XK_0,                     togglegaps,     {0} },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_0,                     defaultgaps,    {0} },
+	{ MODKEY,                       XK_Tab,                   view,           {0} },
+	{ MODKEY,                       XK_q,                     killclient,     {0} },
+	{ MODKEY,                       XK_t,                     setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_f,                     setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_m,                     setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_space,                 setlayout,      {0} },
+	{ MODKEY|ShiftMask,             XK_space,                 togglefloating, {0} },
+	{ MODKEY,                       XK_0,                     view,           {.ui = ~0 } },
+	{ MODKEY|ShiftMask,             XK_0,                     tag,            {.ui = ~0 } },
+	{ MODKEY,                       XK_comma,                 focusmon,       {.i = -1 } },
+	{ MODKEY,                       XK_period,                focusmon,       {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_comma,                 tagmon,         {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_period,                tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_p,                     togglescratch,  {.ui = 0 } }, // scratchpad for vimwiki
+	{ MODKEY,                       XK_x,                     togglescratch,  {.ui = 1 } }, // scratchpad for keepassxc
+	TAGKEYS(                        XK_1,                                     0)
+	TAGKEYS(                        XK_2,                                     1)
+	TAGKEYS(                        XK_3,                                     2)
+	TAGKEYS(                        XK_4,                                     3)
+	TAGKEYS(                        XK_5,                                     4)
+	TAGKEYS(                        XK_6,                                     5)
+	TAGKEYS(                        XK_7,                                     6)
+	TAGKEYS(                        XK_8,                                     7)
+	TAGKEYS(                        XK_9,                                     8)
+	{ MODKEY|ShiftMask,             XK_q,                     quit,           {0} },
+	{ 0,                            XF86XK_AudioMute,         spawn,          SHCMD("pamixer -t; kill -44 $(pidof dwmblocks)") },
+	{ 0,                            XF86XK_AudioRaiseVolume,  spawn,          SHCMD("pamixer --allow-boost -i 3; kill -44 $(pidof dwmblocks)") },
+	{ 0,                            XF86XK_AudioLowerVolume,  spawn,          SHCMD("pamixer --allow-boost -d 3; kill -44 $(pidof dwmblocks)") },
+	{ 0,                            XF86XK_AudioPrev,         spawn,          SHCMD("mpc prev") },
+	{ 0,                            XF86XK_AudioNext,         spawn,          SHCMD("mpc next") },
+	{ 0,                            XF86XK_AudioPause,        spawn,          SHCMD("mpc pause") },
+	{ 0,                            XF86XK_AudioPlay,         spawn,          SHCMD("mpc play") },
+	{ 0,                            XF86XK_AudioStop,         spawn,          SHCMD("mpc stop") },
+	{ 0,                            XF86XK_AudioRewind,       spawn,          SHCMD("mpc seek -10") },
+	{ 0,                            XF86XK_AudioForward,      spawn,          SHCMD("mpc seek +10") },
+	{ 0,                            XF86XK_AudioMedia,        spawn,          SHCMD(TERMINAL " -e ncmpcpp") },
+	{ 0,                            XF86XK_AudioMicMute,      spawn,          SHCMD("pactl s#include <X11/XF86keysym.h>et-source-mute @DEFAULT_SOURCE@ toggle") },
+	{ 0,                            XF86XK_PowerOff,          spawn,          SHCMD("sysact") },
+	{ 0,                            XF86XK_Calculator,        spawn,          SHCMD(TERMINAL " -e bc -l") },
+	{ 0,                            XF86XK_Sleep,             spawn,          SHCMD("sudo -A zzz") },
+	{ 0,                            XF86XK_WWW,               spawn,          SHCMD("$BROWSER") },
+	{ 0,                            XF86XK_DOS,               spawn,          SHCMD(TERMINAL) },
+	{ 0,                            XF86XK_ScreenSaver,       spawn,          SHCMD("slock & xset dpms force off; mpc pause; pauseallmpv") },
+	{ 0,                            XF86XK_TaskPane,          spawn,          SHCMD(TERMINAL #include <X11/XF86keysym.h>" -e htop") },
+	{ 0,                            XF86XK_Mail,              spawn,          SHCMD(TERMINAL " -e neomutt ; pkill -RTMIN+12 dwmblocks") },
+	{ 0,                            XF86XK_MyComputer,        spawn,          SHCMD(TERMINAL " -e lf /") },
+	{ 0,                            XF86XK_Launch1,           spawn,          SHCMD("xset dpms force off") },
+	{ 0,                            XF86XK_TouchpadToggle,    spawn,          SHCMD("(synclient#include <X11/XF86keysym.h> | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") },
+	{ 0,                            XF86XK_TouchpadOff,       spawn,          SHCMD("synclient TouchpadOff=1") },
+	{ 0,                            XF86XK_TouchpadOn,        spawn,          SHCMD("synclient TouchpadOff=0") },
+	{ 0,                            XF86XK_MonBrightnessUp,   spawn,          SHCMD("xbacklight -inc 15") },
+	{ 0,                            XF86XK_MonBrightnessDown, spawn,          SHCMD("xbackli#include <X11/XF86keysym.h>ght -dec 15") },
 };
 
 /* button definitions */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
+    #ifndef __OpenBSD__
+	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
+	{ ClkStatusText,        0,              Button1,        sigdwmblocks,   {.i = 1} },
+	{ ClkStatusText,        0,              Button2,        sigdwmblocks,   {.i = 2} },
+	{ ClkStatusText,        0,              Button3,        sigdwmblocks,   {.i = 3} },
+	{ ClkStatusText,        0,              Button4,        sigdwmblocks,   {.i = 4} },
+	{ ClkStatusText,        0,              Button5,        sigdwmblocks,   {.i = 5} },
+	{ ClkStatusText,        ShiftMask,      Button1,        sigdwmblocks,   {.i = 6} },
+#endif
+	{ ClkStatusText,        ShiftMask,      Button3,        spawn,          SHCMD(TERMINAL " -e nvim ~/.local/src/dwmblocks/config.h") },
+	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
+	{ ClkClientWin,         MODKEY,         Button2,        defaultgaps,    {0} },
+	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
+	{ ClkClientWin,         MODKEY,         Button4,        incrgaps,       {.i = +1} },
+	{ ClkClientWin,         MODKEY,         Button5,        incrgaps,       {.i = -1} },
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkStatusText,        0,              Button1,        sigdwmblocks,   {.i = 1} },
 	{ ClkStatusText,        0,              Button2,        sigdwmblocks,   {.i = 2} },
 	{ ClkStatusText,        0,              Button3,        sigdwmblocks,   {.i = 3} },
-	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
-	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
-	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
+  { ClkRootWin,           0,              Button2,        togglebar,      {0} },
 };
 
