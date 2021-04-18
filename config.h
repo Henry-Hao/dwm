@@ -12,8 +12,8 @@ static const unsigned int gappov    = 30;       /* vert outer gap between window
 static       int smartgaps          = 1;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Ubuntu Mono Nerd Font:size=13","JoyPixels:pixelsize=10:antialias=true:autohint=true" };
-static const char dmenufont[]       = "Ubuntu Mono Nerd Font:size=13";
+static const char *fonts[]          = { "Ubuntu Mono Nerd Font:size=14","JoyPixels:pixelsize=13:antialias=true:autohint=true" };
+static const char dmenufont[]       = "Ubuntu Mono Nerd Font:size=14";
 static const char normbgcolor[]     = "#222222";
 static const char normbordercolor[] = "#444444";
 static const char normfgcolor[]     = "#bbbbbb";
@@ -137,7 +137,7 @@ static Key keys[] = {
 	// { MODKEY,                       XK_F3,                     spawn,         {.i = -1 } },
 	// { MODKEY,                       XK_F4,                     spawn,         {.i = -1 } },
 	// { MODKEY,                       XK_F5,                     spawn,         {.i = -1 } },
-	{ MODKEY,                       XK_F6,                    spawn,          SHCMD(TERMINAL " --title float -e qbittorrent") },
+	{ MODKEY,                       XK_F6,                    spawn,          SHCMD("qbittorrent &") },
 	// { MODKEY,                       XK_F7,                     spawn,         {.i = -1 } },
 	// { MODKEY,                       XK_F8,                     spawn,         {.i = -1 } },
 	// { MODKEY,                       XK_F9,                     spawn,         {.i = -1 } },
@@ -146,6 +146,7 @@ static Key keys[] = {
 	// { MODKEY,                       XK_F12                     spawn,         {.i = -1 } },
 	// { MODKEY,                       XK_i,                     incnmaster,     {.i = +1 } },
 	// { MODKEY,                       XK_d,                     incnmaster,     {.i = -1 } },
+	{ ControlMask,                  XK_space,                 spawn,          SHCMD("fcitx-remote -t; pkill -RTMIN+30 dwmblocks") },
 	{ NULL,                         XK_F9,                    view,           {.ui = 1 << 8} },
 	{ MODKEY,                       XK_h,                     setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,                     setmfact,       {.f = +0.05} },
@@ -202,22 +203,22 @@ static Key keys[] = {
 	{ 0,                            XF86XK_AudioRewind,       spawn,          SHCMD("mpc seek -10") },
 	{ 0,                            XF86XK_AudioForward,      spawn,          SHCMD("mpc seek +10") },
 	{ 0,                            XF86XK_AudioMedia,        spawn,          SHCMD(TERMINAL " -e ncmpcpp") },
-	{ 0,                            XF86XK_AudioMicMute,      spawn,          SHCMD("pactl s#include <X11/XF86keysym.h>et-source-mute @DEFAULT_SOURCE@ toggle") },
+	{ 0,                            XF86XK_AudioMicMute,      spawn,          SHCMD("pactl set-source-mute @DEFAULT_SOURCE@ toggle") },
 	{ 0,                            XF86XK_PowerOff,          spawn,          SHCMD("sysact") },
 	{ 0,                            XF86XK_Calculator,        spawn,          SHCMD(TERMINAL " -e bc -l") },
 	{ 0,                            XF86XK_Sleep,             spawn,          SHCMD("sudo -A zzz") },
 	{ 0,                            XF86XK_WWW,               spawn,          SHCMD("$BROWSER") },
 	{ 0,                            XF86XK_DOS,               spawn,          SHCMD(TERMINAL) },
 	{ 0,                            XF86XK_ScreenSaver,       spawn,          SHCMD("slock & xset dpms force off; mpc pause; pauseallmpv") },
-	{ 0,                            XF86XK_TaskPane,          spawn,          SHCMD(TERMINAL #include <X11/XF86keysym.h>" -e htop") },
+	{ 0,                            XF86XK_TaskPane,          spawn,          SHCMD(TERMINAL " -e htop") },
 	{ 0,                            XF86XK_Mail,              spawn,          SHCMD(TERMINAL " -e neomutt ; pkill -RTMIN+12 dwmblocks") },
 	{ 0,                            XF86XK_MyComputer,        spawn,          SHCMD(TERMINAL " -e lf /") },
 	{ 0,                            XF86XK_Launch1,           spawn,          SHCMD("xset dpms force off") },
-	{ 0,                            XF86XK_TouchpadToggle,    spawn,          SHCMD("(synclient#include <X11/XF86keysym.h> | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") },
+	{ 0,                            XF86XK_TouchpadToggle,    spawn,          SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") },
 	{ 0,                            XF86XK_TouchpadOff,       spawn,          SHCMD("synclient TouchpadOff=1") },
 	{ 0,                            XF86XK_TouchpadOn,        spawn,          SHCMD("synclient TouchpadOff=0") },
 	{ 0,                            XF86XK_MonBrightnessUp,   spawn,          SHCMD("xbacklight -inc 15") },
-	{ 0,                            XF86XK_MonBrightnessDown, spawn,          SHCMD("xbackli#include <X11/XF86keysym.h>ght -dec 15") },
+	{ 0,                            XF86XK_MonBrightnessDown, spawn,          SHCMD("xbacklight -dec 15") }
 };
 
 /* button definitions */
@@ -233,7 +234,7 @@ static Button buttons[] = {
 	{ ClkStatusText,        0,              Button5,        sigdwmblocks,   {.i = 5} },
 	{ ClkStatusText,        ShiftMask,      Button1,        sigdwmblocks,   {.i = 6} },
 #endif
-	{ ClkStatusText,        ShiftMask,      Button3,        spawn,          SHCMD(TERMINAL " -e nvim ~/.local/src/dwmblocks/config.h") },
+	{ ClkStatusText,        ShiftMask,      Button3,        spawn,          SHCMD(TERMINAL " -e nvim /opt/dwmblocks/config.h") },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        defaultgaps,    {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
